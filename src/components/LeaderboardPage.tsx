@@ -11,6 +11,7 @@ interface Participant {
   username: string;
   score: number;
   total_time_spent: number;
+  q10_response?: string;
 }
 
 export default function LeaderboardPage() {
@@ -105,32 +106,39 @@ export default function LeaderboardPage() {
                   <div 
                     key={p.id}
                     className={twMerge(
-                      "flex items-center justify-between p-4 rounded-xl border transition-shadow shadow-sm hover:shadow-md",
+                      "flex flex-col p-4 rounded-xl border transition-shadow shadow-sm hover:shadow-md",
                       index === 0 ? "border-yellow-400 bg-yellow-50/50" : "border-gray-200 bg-white"
                     )}
                   >
-                    <div className="flex items-center space-x-4">
-                      <div className={twMerge(
-                        "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
-                        index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" : "bg-gray-100 text-gray-500"
-                      )}>
-                        {index + 1}
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center space-x-4">
+                        <div className={twMerge(
+                          "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
+                          index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" : "bg-gray-100 text-gray-500"
+                        )}>
+                          {index + 1}
+                        </div>
+                        <div>
+                          <div className="font-bold text-lg text-gray-900 capitalize truncate max-w-[150px] sm:max-w-[200px]">
+                            {p.username}
+                          </div>
+                          <div className="text-sm text-gray-500 flex items-center space-x-1">
+                            <Clock size={14} />
+                            <span>{p.total_time_spent.toFixed(2)}s</span>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="font-bold text-lg text-gray-900 capitalize truncate max-w-[150px] sm:max-w-[200px]">
-                          {p.username}
-                        </div>
-                        <div className="text-sm text-gray-500 flex items-center space-x-1">
-                          <Clock size={14} />
-                          <span>{p.total_time_spent.toFixed(2)}s</span>
-                        </div>
+                      
+                      <div className="flex items-center space-x-1 font-bold text-lg bg-[#00629B]/10 text-[#00629B] px-3 py-1 rounded-lg">
+                        <span>{p.score}</span>
+                        <Star size={16} className="fill-current" />
                       </div>
                     </div>
-                    
-                    <div className="flex items-center space-x-1 font-bold text-lg bg-[#00629B]/10 text-[#00629B] px-3 py-1 rounded-lg">
-                      <span>{p.score}</span>
-                      <Star size={16} className="fill-current" />
-                    </div>
+                    {p.q10_response && (
+                      <div className="mt-3 text-sm text-gray-700 bg-white/50 p-3 rounded-lg border border-gray-100 italic">
+                        "{p.q10_response}"
+                      </div>
+                    )}
                   </div>
                 );
               })}

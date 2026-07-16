@@ -7,7 +7,7 @@ export async function GET() {
   try {
     const { data: leaderboard, error } = await supabase
       .from('participants')
-      .select('id, username, score, total_time_spent')
+      .select('id, username, score, total_time_spent, q10_response')
       .eq('completed', true)
       .order('score', { ascending: false })
       .order('total_time_spent', { ascending: true })
