@@ -33,7 +33,7 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
       } else if (data.success) {
         setQuestion(data.question);
         setQIndex(data.current_question_index);
-        startTimer();
+        startTimer(data.question.type);
       }
     } catch (err) {
       console.error(err);
@@ -51,9 +51,10 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
     if (timerRef.current) clearInterval(timerRef.current);
   };
 
-  const startTimer = () => {
+  const startTimer = (qType: string) => {
     clearTimer();
-    setTimeLeft(30);
+    const timeLimit = qType === 'text' ? 60 : 30;
+    setTimeLeft(timeLimit);
     timerRef.current = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 1) {
@@ -143,7 +144,8 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
   // SVG Circular progress calc
   const radius = 30;
   const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (timeLeft / 30) * circumference;
+  const maxTime = question.type === 'text' ? 60 : 30;
+  const strokeDashoffset = circumference - (timeLeft / maxTime) * circumference;
   
   return (
     <div className="min-h-screen flex flex-col items-center p-4 ieee-gradient text-white">

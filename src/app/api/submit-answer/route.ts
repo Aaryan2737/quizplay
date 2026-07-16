@@ -34,12 +34,13 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Invalid question index' }, { status: 400 });
     }
 
-    // Clamp duration to max 30.0s plus small grace period (e.g. 2s)
+    const question = questions[qIndex];
+    const maxTime = question.type === 'text' ? 60 : 30;
+
+    // Clamp duration to max time plus small grace period (e.g. 2s)
     let duration = (Date.now() - new Date(user.question_started_at).getTime()) / 1000;
     if (isNaN(duration) || duration < 0) duration = 0;
-    if (duration > 32) duration = 30; // Clamped to 30s if exceeded
-
-    const question = questions[qIndex];
+    if (duration > maxTime + 2) duration = maxTime; // Clamped to max if exceeded
     
     if (question.type === 'mcq') {
       const isCorrect = answerIndex === question.correctAnswerIndex;
