@@ -1,0 +1,149 @@
+'use client';
+
+import { useEffect, useState } from 'react';
+import confetti from 'canvas-confetti';
+import { Trophy, RefreshCw, Clock, Star } from 'lucide-react';
+import { clsx } from 'clsx';
+import { twMerge } from 'tailwind-merge';
+
+interface Participant {
+  id: string;
+  username: string;
+  score: number;
+  total_time_spent: number;
+}
+
+export default function LeaderboardPage() {
+  const [leaderboard, setLeaderboard] = useState<Participant[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [refreshing, setRefreshing] = useState(false);
+
+  const fetchLeaderboard = async () => {
+    try {
+      const res = await fetch('/api/leaderboard', { cache: 'no-store' });
+      const data = await res.json();
+      if (data.success) {
+        setLeaderboard(data.leaderboard);
+      }
+    } catch (error) {
+      console.error('Failed to fetch leaderboard:', error);
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchLeaderboard();
+    
+    // Trigger confetti on mount
+    const duration = 3000;
+    const end = Date.now() + duration;
+
+    const frame = () => {
+      confetti({
+        particleCount: 5,
+        angle: 60,
+        spread: 55,
+        origin: { x: 0 },
+        colors: ['#00629B', '#FFC107', '#ffffff']
+      });
+      confetti({
+        particleCount: 5,
+        angle: 120,
+        spread: 55,
+        origin: { x: 1 },
+        colors: ['#00629B', '#FFC107', '#ffffff']
+      });
+
+      if (Date.now() < end) {
+        requestAnimationFrame(frame);
+      }
+    };
+    frame();
+  }, []);
+
+  const handleRefresh = () => {
+    setRefreshing(true);
+    fetchLeaderboard();
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center ieee-gradient text-white">
+        <RefreshCw className="animate-spin" size={40} />
+      </div>
+    );
+  }
+
+  return (
+    <div className="min-h-screen flex flex-col items-center p-4 ieee-gradient text-white py-12">
+      <div className="w-full max-w-2xl bg-white text-gray-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
+        <div className="p-6 bg-[#00629B] text-white flex justify-between items-center flex-shrink-0">
+          <div className="flex items-center space-x-3">
+            <Trophy size={28} className="text-yellow-400 fill-current" />
+            <h1 className="text-2xl font-bold">Leaderboard</h1>
+          </div>
+          <button 
+            onClick={handleRefresh}
+            className="p-2 bg-[#004c7a] rounded-full hover:bg-[#003d61] transition-colors"
+            title="Refresh"
+          >
+            <RefreshCw size={20} className={clsx(refreshing && "animate-spin")} />
+          </button>
+        </div>
+
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+          {leaderboard.length === 0 ? (
+            <div className="text-center py-12 text-gray-500">
+              No completed participants yet.
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {leaderboard.map((p, index) => {
+                const isTop3 = index < 3;
+                return (
+                  <div 
+                    key={p.id}
+                    className={twMerge(
+                      "flex items-center justify-between p-4 rounded-xl border bg-white transition-shadow shadow-sm hover:shadow-md",
+                      index === 0 && "border-yellow-400 bg-yellow-50/50",
+                      index === 1 && "border-gray-300 bg-gray-50",
+                      index === 2 && "border-amber-600 bg-amber-50/30"
+                    )}
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className={twMerge(
+                        "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
+                        index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" :
+                        index === 1 ? "bg-gray-300 text-gray-700 shadow-md" :
+                        index === 2 ? "bg-amber-600 text-white shadow-md" :
+                        "bg-gray-100 text-gray-500"
+                      )}>
+                        {index + 1}
+                      </div>
+                      <div>
+                        <div className="font-bold text-lg text-gray-900 capitalize truncate max-w-[150px] sm:max-w-[200px]">
+                          {p.username}
+                        </div>
+                        <div className="text-sm text-gray-500 flex items-center space-x-1">
+                          <Clock size={14} />
+                          <span>{p.total_time_spent.toFixed(2)}s</span>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center space-x-1 font-bold text-lg bg-[#00629B]/10 text-[#00629B] px-3 py-1 rounded-lg">
+                      <span>{p.score}</span>
+                      <Star size={16} className="fill-current" />
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
