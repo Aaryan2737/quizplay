@@ -101,24 +101,18 @@ export default function LeaderboardPage() {
           ) : (
             <div className="space-y-3">
               {leaderboard.map((p, index) => {
-                const isTop3 = index < 3;
                 return (
                   <div 
                     key={p.id}
                     className={twMerge(
-                      "flex items-center justify-between p-4 rounded-xl border bg-white transition-shadow shadow-sm hover:shadow-md",
-                      index === 0 && "border-yellow-400 bg-yellow-50/50",
-                      index === 1 && "border-gray-300 bg-gray-50",
-                      index === 2 && "border-amber-600 bg-amber-50/30"
+                      "flex items-center justify-between p-4 rounded-xl border transition-shadow shadow-sm hover:shadow-md",
+                      index === 0 ? "border-yellow-400 bg-yellow-50/50" : "border-gray-200 bg-white"
                     )}
                   >
                     <div className="flex items-center space-x-4">
                       <div className={twMerge(
                         "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
-                        index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" :
-                        index === 1 ? "bg-gray-300 text-gray-700 shadow-md" :
-                        index === 2 ? "bg-amber-600 text-white shadow-md" :
-                        "bg-gray-100 text-gray-500"
+                        index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" : "bg-gray-100 text-gray-500"
                       )}>
                         {index + 1}
                       </div>
