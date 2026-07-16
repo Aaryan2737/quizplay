@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import LandingPage from '@/components/LandingPage';
 import QuizPage from '@/components/QuizPage';
-import LeaderboardPage from '@/components/LeaderboardPage';
+import ThankYouPage from '@/components/ThankYouPage';
 
 export default function Home() {
   const [view, setView] = useState<'loading' | 'landing' | 'quiz' | 'leaderboard'>('loading');
@@ -46,7 +46,7 @@ export default function Home() {
     <main>
       {view === 'landing' && <LandingPage onJoin={() => setView('quiz')} />}
       {view === 'quiz' && <QuizPage onComplete={() => setView('leaderboard')} />}
-      {view === 'leaderboard' && <LeaderboardPage />}
+      {view === 'leaderboard' && <ThankYouPage />}
     </main>
   );
 }
