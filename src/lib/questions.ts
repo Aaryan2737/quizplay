@@ -59,15 +59,15 @@ export const questions: Question[] = [
   {
     id: 6,
     type: 'mcq',
-    question: 'How many countries will co-host the 2026 FIFA World Cup?',
-    options: ['1', '2', '3', '4'],
-    correctAnswerIndex: 2 // USA, Canada, Mexico
+    question: 'Modern FIFA World Cup stadiums rely on high-speed wireless networks so tens of thousands of fans can share photos and videos at the exact same time. Which famous wireless technology, built on the IEEE 802.11 standard, makes this possible?',
+    options: ['Bluetooth', 'Wi-Fi', 'GPS', 'NFC'],
+    correctAnswerIndex: 1
   },
   {
     id: 7,
     type: 'mcq',
-    question: 'How many teams will participate in the expanded 2026 FIFA World Cup?',
-    options: ['32', '40', '48', '64'],
+    question: 'Recent World Cups use a high-tech "connected ball" containing a smart sensor to help referees make precise offside decisions. Which global engineering organization creates the technical standards that allow these sensors to transmit data reliably?',
+    options: ['NASA', 'WHO', 'IEEE', 'IMF'],
     correctAnswerIndex: 2
   },
   {
