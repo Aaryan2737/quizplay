@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Trophy, RefreshCw, Clock, Star } from 'lucide-react';
+import { Trophy, RefreshCw, Clock, Star, AlertTriangle } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -18,6 +18,7 @@ export default function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState<Participant[]>([]);
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const [resetting, setResetting] = useState(false);
 
   const fetchLeaderboard = async () => {
     try {
@@ -69,6 +70,37 @@ export default function LeaderboardPage() {
     fetchLeaderboard();
   };
 
+  const handleReset = async () => {
+    const password = prompt('WARNING: This will delete ALL participants and scores.\\n\\nType the admin password to continue:');
+    if (password !== 'ieee-admin-2026') {
+      if (password !== null) alert('Incorrect password.');
+      return;
+    }
+
+    const confirmDelete = confirm('Are you absolutely sure you want to wipe the database? This cannot be undone.');
+    if (!confirmDelete) return;
+
+    setResetting(true);
+    try {
+      const res = await fetch('/api/reset-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert('Database successfully reset!');
+        fetchLeaderboard();
+      } else {
+        alert('Failed to reset: ' + data.error);
+      }
+    } catch (err) {
+      alert('Error connecting to server.');
+    } finally {
+      setResetting(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center ieee-gradient text-white">
@@ -85,13 +117,23 @@ export default function LeaderboardPage() {
             <Trophy size={28} className="text-yellow-400 fill-current" />
             <h1 className="text-2xl font-bold">Leaderboard</h1>
           </div>
-          <button 
-            onClick={handleRefresh}
-            className="p-2 bg-[#004c7a] rounded-full hover:bg-[#003d61] transition-colors"
-            title="Refresh"
-          >
-            <RefreshCw size={20} className={clsx(refreshing && "animate-spin")} />
-          </button>
+          <div className="flex items-center space-x-2">
+            <button 
+              onClick={handleReset}
+              disabled={resetting}
+              className="p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors disabled:opacity-50"
+              title="Reset Database"
+            >
+              <AlertTriangle size={20} className={clsx(resetting && "animate-pulse")} />
+            </button>
+            <button 
+              onClick={handleRefresh}
+              className="p-2 bg-[#004c7a] rounded-full hover:bg-[#003d61] transition-colors"
+              title="Refresh"
+            >
+              <RefreshCw size={20} className={clsx(refreshing && "animate-spin")} />
+            </button>
+          </div>
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
