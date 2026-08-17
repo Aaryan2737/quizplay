@@ -28,7 +28,9 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
     try {
       const res = await fetch('/api/get-question');
       const data = await res.json();
-      if (data.completed) {
+      if (data.inactive || res.status === 403) {
+        window.location.reload();
+      } else if (data.completed) {
         onComplete();
       } else if (data.success || data.question) {
         setQuestion(data.question);
