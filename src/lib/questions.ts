@@ -54,8 +54,8 @@ export const questions: Question[] = [
   {
     id: 7,
     type: 'mcq',
-    question: 'Level 7: In Spider-Man: No Way Home, what is the exact name of the spell Doctor Strange uses that goes wrong and cracks the multiverse?',
-    options: ['The Runes of Kof-Kol', 'The Crimson Bands of Cyttorak', 'The Hoary Hosts of Hoggoth', 'The Winds of Watoomb'],
+    question: 'Level 7: The "Brand New Day" comic storyline completely rebooted Spider-Man\'s status quo. Which major new villain, known for his inverted color scheme and dual persona as Martin Li, made his debut during this era?',
+    options: ['Mister Negative', 'Anti-Venom', 'Overdrive', 'Menace'],
     correctAnswerIndex: 0
   },
   {
