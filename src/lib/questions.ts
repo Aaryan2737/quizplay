@@ -12,72 +12,70 @@ export const questions: Question[] = [
   {
     id: 1,
     type: 'mcq',
-    question: 'Before Tony Stark upgraded to FRIDAY, what did the acronym for his original AI, J.A.R.V.I.S., stand for?',
-    options: ['Just A Rather Very Intelligent System', 'Joint Artificial Rendering Virtual Interface System', 'Just A Really Vital Information System', 'Jarvis Artificial Reasoning Vision Intelligence System'],
-    correctAnswerIndex: 0
+    question: 'Level 1: "I am Iron Man" is the iconic final line spoken by Tony Stark in the 2008 film Iron Man and which 2019 film?',
+    options: ['Avengers: Infinity War', 'Avengers: Endgame', 'Spider-Man: Far From Home', 'The Avengers'],
+    correctAnswerIndex: 1
   },
   {
     id: 2,
     type: 'mcq',
-    question: 'In Spider-Man: Into the Spider-Verse, what is the actual name of the spectacular hero known as "Spider-Ham"?',
-    options: ['Porky Parker', 'Peter Porker', 'Hammy Osborn', 'Miles Meatballs'],
+    question: 'Level 2: What is the name of Thor\'s original enchanted hammer?',
+    options: ['Stormbreaker', 'Mjolnir', 'Gungnir', 'Hofund'],
     correctAnswerIndex: 1
   },
   {
     id: 3,
     type: 'mcq',
-    question: "Captain America’s shield is made of Vibranium, but what virtually indestructible metal is laced onto Wolverine's skeleton?",
-    options: ['Uru', 'Carbonadium', 'Adamantium', 'Promethium'],
+    question: 'Level 3: In Guardians of the Galaxy (Phase 2), what is the name of the desolate planet where Peter Quill discovers the orb containing the Power Stone?',
+    options: ['Xandar', 'Knowhere', 'Morag', 'Sakaar'],
     correctAnswerIndex: 2
   },
   {
     id: 4,
     type: 'mcq',
-    question: "In the famous post-credits scene of 2012's The Avengers, what food does the exhausted team sit in silence and eat after saving New York?",
-    options: ['Tacos', 'Shawarma', 'Pizza', 'Cheeseburgers'],
+    question: 'Level 4: In Captain America: Civil War, who is revealed to be directly responsible for the assassination of Tony Stark\'s parents?',
+    options: ['Helmut Zemo', 'The Winter Soldier (Bucky Barnes)', 'Crossbones', 'The Red Skull'],
     correctAnswerIndex: 1
   },
   {
     id: 5,
     type: 'mcq',
-    question: 'The late, great Stan Lee made cameos in almost every Marvel movie. In which film did he make his final, posthumous MCU cameo?',
-    options: ['Spider-Man: Far From Home', 'Avengers: Endgame', 'Captain Marvel', 'Black Panther'],
-    correctAnswerIndex: 1
+    question: 'Level 5: What specific alien species is Groot, the sentient tree-like creature?',
+    options: ['Flora colossus', 'Kree', 'Korbinite', 'Sovereign'],
+    correctAnswerIndex: 0
   },
   {
     id: 6,
     type: 'mcq',
-    question: 'To acquire the Soul Stone, Thanos had to travel to the planet Vormir. Who was the cursed keeper of the stone on that planet?',
-    options: ['The Collector', 'Hela', 'Red Skull', 'Ronan the Accuser'],
-    correctAnswerIndex: 2
+    question: 'Level 6: Kicking off the Multiverse Saga (Phase 4), what does the acronym TVA stand for in the Loki series?',
+    options: ['Time Variance Authority', 'Temporal Violation Agency', 'Time Vector Administration', 'Temporal Variance Authority'],
+    correctAnswerIndex: 0
   },
   {
     id: 7,
     type: 'mcq',
-    question: 'Before he picked up the shield to play Captain America, Chris Evans played which other hot-headed Marvel superhero?',
-    options: ['Ghost Rider', 'Cyclops', 'Daredevil', 'Human Torch'],
-    correctAnswerIndex: 3
+    question: 'Level 7: In Spider-Man: No Way Home, what is the exact name of the spell Doctor Strange uses that goes wrong and cracks the multiverse?',
+    options: ['The Runes of Kof-Kol', 'The Crimson Bands of Cyttorak', 'The Hoary Hosts of Hoggoth', 'The Winds of Watoomb'],
+    correctAnswerIndex: 0
   },
   {
     id: 8,
     type: 'mcq',
-    question: 'Who is the archenemy of the Fantastic Four, known for his metal mask, genius intellect, and mastery of both science and magic?',
-    options: ['Magneto', 'Doctor Doom', 'Kang the Conqueror', 'Galactus'],
+    question: 'Level 8: In Shang-Chi and the Legend of the Ten Rings, what is the name of the mythical village Shang-Chi must protect?',
+    options: ['K\'un-Lun', 'Ta Lo', 'Kamar-Taj', 'Madripoor'],
     correctAnswerIndex: 1
   },
   {
     id: 9,
     type: 'mcq',
-    question: 'What is the name of the ancient artifact that Doctor Strange wears around his neck, which originally housed the Time Stone?',
-    options: ['The Eye of Agamotto', 'The Wand of Watoomb', 'The Cloak of Levitation', 'The Darkhold'],
-    correctAnswerIndex: 0
+    question: 'Level 9: In Ant-Man and the Wasp: Quantumania (Phase 5), which specific Kang variant rules the Quantum Realm after being exiled?',
+    options: ['He Who Remains', 'Immortus', 'Kang the Conqueror', 'Rama-Tut'],
+    correctAnswerIndex: 2
   },
   {
     id: 10,
-    type: 'mcq',
-    question: "What is the name of the highly advanced, hidden African nation ruled by King T'Challa?",
-    options: ['Sokovia', 'Genosha', 'Wakanda', 'Madripoor'],
-    correctAnswerIndex: 2
+    type: 'text',
+    question: 'Level 10 (Tie-Breaker): If you could use the Time Stone to change one major event in the MCU timeline across any saga, what would it be and how would it alter the Multiverse? (Be creative!)',
   }
 ];
 
