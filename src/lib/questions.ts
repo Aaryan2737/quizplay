@@ -12,76 +12,72 @@ export const questions: Question[] = [
   {
     id: 1,
     type: 'mcq',
-    question: 'The guy who created Linux (the operating system running most of the internet) also created Git and GitHub to help developers collaborate. Who is he?',
-    options: [
-      'Bill Gates',
-      'Linus Torvalds',
-      'Steve Jobs',
-      'Mark Zuckerberg'
-    ],
-    correctAnswerIndex: 1
+    question: 'Before Tony Stark upgraded to FRIDAY, what did the acronym for his original AI, J.A.R.V.I.S., stand for?',
+    options: ['Just A Rather Very Intelligent System', 'Joint Artificial Rendering Virtual Interface System', 'Just A Really Vital Information System', 'Jarvis Artificial Reasoning Vision Intelligence System'],
+    correctAnswerIndex: 0
   },
   {
     id: 2,
     type: 'mcq',
-    question: 'You are pulling an all-nighter to finish an assignment. The classic developer fuel is coffee. Which programming language is famously named after an island known for its coffee?',
-    options: ['Mocha', 'Python', 'Java', 'Espresso'],
-    correctAnswerIndex: 2
+    question: 'In Spider-Man: Into the Spider-Verse, what is the actual name of the spectacular hero known as "Spider-Ham"?',
+    options: ['Porky Parker', 'Peter Porker', 'Hammy Osborn', 'Miles Meatballs'],
+    correctAnswerIndex: 1
   },
   {
     id: 3,
     type: 'mcq',
-    question: 'When the college WiFi unexpectedly drops 5 minutes before your submission deadline, which 8-bit hero usually appears on your Chrome browser to save you from boredom?',
-    options: ['Mario', 'Sonic', 'T-Rex', 'Pac-Man'],
+    question: "Captain America’s shield is made of Vibranium, but what virtually indestructible metal is laced onto Wolverine's skeleton?",
+    options: ['Uru', 'Carbonadium', 'Adamantium', 'Promethium'],
     correctAnswerIndex: 2
   },
   {
     id: 4,
     type: 'mcq',
-    question: 'In July 2024, a massive global IT outage caused millions of Windows computers to show a "Blue Screen of Death", grounding flights and stopping banks. Which cybersecurity company\'s update was responsible?',
-    options: ['Norton', 'McAfee', 'CrowdStrike', 'Kaspersky'],
-    correctAnswerIndex: 2
+    question: "In the famous post-credits scene of 2012's The Avengers, what food does the exhausted team sit in silence and eat after saving New York?",
+    options: ['Tacos', 'Shawarma', 'Pizza', 'Cheeseburgers'],
+    correctAnswerIndex: 1
   },
   {
     id: 5,
     type: 'mcq',
-    question: 'The term "Computer Bug" was popularized when a real insect was found stuck inside an early electromechanical computer (the Harvard Mark II) in 1947. Which insect was it?',
-    options: ['A spider', 'A moth', 'A cockroach', 'A beetle'],
+    question: 'The late, great Stan Lee made cameos in almost every Marvel movie. In which film did he make his final, posthumous MCU cameo?',
+    options: ['Spider-Man: Far From Home', 'Avengers: Endgame', 'Captain Marvel', 'Black Panther'],
     correctAnswerIndex: 1
   },
   {
     id: 6,
     type: 'mcq',
-    question: 'Two famous tech billionaires recently made headlines by agreeing to a literal physical "cage match" (though it hasn\'t happened yet). Who were they?',
-    options: ['Jeff Bezos & Bill Gates', 'Elon Musk & Mark Zuckerberg', 'Tim Cook & Sundar Pichai', 'Sam Altman & Elon Musk'],
-    correctAnswerIndex: 1
+    question: 'To acquire the Soul Stone, Thanos had to travel to the planet Vormir. Who was the cursed keeper of the stone on that planet?',
+    options: ['The Collector', 'Hela', 'Red Skull', 'Ronan the Accuser'],
+    correctAnswerIndex: 2
   },
   {
     id: 7,
     type: 'mcq',
-    question: 'You finally write a piece of code that works, push it to GitHub, and your senior replies with "LGTM". What does this stand for in developer culture?',
-    options: ['Let\'s Go To Meetings', 'Looks Good To Me', 'Little Glitches, Too Many', 'Leave GitHub To Me'],
-    correctAnswerIndex: 1
+    question: 'Before he picked up the shield to play Captain America, Chris Evans played which other hot-headed Marvel superhero?',
+    options: ['Ghost Rider', 'Cyclops', 'Daredevil', 'Human Torch'],
+    correctAnswerIndex: 3
   },
   {
     id: 8,
     type: 'mcq',
-    question: 'Which of these is the most used password in the world (and definitely the one you shouldn\'t use for your college portal)?',
-    options: ['password', '123456', 'qwerty', 'admin123'],
+    question: 'Who is the archenemy of the Fantastic Four, known for his metal mask, genius intellect, and mastery of both science and magic?',
+    options: ['Magneto', 'Doctor Doom', 'Kang the Conqueror', 'Galactus'],
     correctAnswerIndex: 1
   },
   {
     id: 9,
     type: 'mcq',
-    question: 'Which AI tool, launched in late 2022 by OpenAI, became the fastest-growing consumer application in history and every college student\'s best friend?',
-    options: ['Midjourney', 'GitHub Copilot', 'ChatGPT', 'Claude'],
-    correctAnswerIndex: 2
+    question: 'What is the name of the ancient artifact that Doctor Strange wears around his neck, which originally housed the Time Stone?',
+    options: ['The Eye of Agamotto', 'The Wand of Watoomb', 'The Cloak of Levitation', 'The Darkhold'],
+    correctAnswerIndex: 0
   },
   {
     id: 10,
-    type: 'text',
-    question: 'If you had an unlimited budget to build a tech startup or app specifically to help freshers survive their first year of college, what would it do? (Explain briefly in 1-2 sentences).',
-    options: []
+    type: 'mcq',
+    question: "What is the name of the highly advanced, hidden African nation ruled by King T'Challa?",
+    options: ['Sokovia', 'Genosha', 'Wakanda', 'Madripoor'],
+    correctAnswerIndex: 2
   }
 ];
 

@@ -38,8 +38,8 @@ export default function Home() {
 
   if (view === 'loading') {
     return (
-      <div className="min-h-screen flex items-center justify-center ieee-gradient text-white">
-        <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center marvel-bg text-[var(--color-text-primary)]">
+        <div className="w-16 h-16 border-4 border-[var(--color-accent-primary)] border-t-transparent rounded-full animate-spin shadow-[0_0_15px_rgba(226,54,54,0.5)]"></div>
       </div>
     );
   }
@@ -50,10 +50,10 @@ export default function Home() {
       {view === 'quiz' && <QuizPage onComplete={() => setView('leaderboard')} />}
       {view === 'leaderboard' && <ThankYouPage />}
       {view === 'inactive' && (
-        <div className="min-h-screen flex flex-col items-center justify-center p-4 ieee-gradient text-white text-center">
-          <div className="bg-white/10 p-8 rounded-3xl backdrop-blur-xl max-w-md border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
-            <h1 className="text-3xl font-bold mb-4 drop-shadow-md tracking-tight">Quiz is Closed</h1>
-            <p className="text-lg text-gray-200">The quiz is currently not active. Please wait for the event coordinators to start the session, or check back later.</p>
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 marvel-bg text-[var(--color-text-primary)] text-center">
+          <div className="bg-[var(--color-bg-surface)] elevation-1 p-8 rounded-3xl max-w-md border border-white/5 relative z-10">
+            <h1 className="text-5xl font-bangers mb-4 tracking-wide text-[var(--color-accent-primary)] drop-shadow-[0_0_10px_rgba(226,54,54,0.6)]">Quiz is Closed</h1>
+            <p className="text-lg text-[var(--color-text-secondary)] font-inter">The quiz is currently not active. Please wait for the event coordinators to start the session, or check back later.</p>
           </div>
         </div>
       )}

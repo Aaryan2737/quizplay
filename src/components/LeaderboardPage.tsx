@@ -152,17 +152,20 @@ export default function LeaderboardPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col items-center p-4 ieee-gradient text-white py-12">
-      <div className="w-full max-w-2xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] overflow-hidden flex flex-col max-h-[85vh]">
-        <div className="p-6 bg-black/20 border-b border-white/20 text-white flex justify-between items-center flex-shrink-0">
+    <div className="min-h-screen flex flex-col items-center p-4 marvel-bg text-[var(--color-text-primary)] py-12">
+      {/* Subtle radial glow behind the leaderboard */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] max-w-[800px] bg-[radial-gradient(ellipse_at_center,rgba(226,54,54,0.15)_0%,rgba(31,111,214,0.15)_50%,transparent_70%)] z-0 pointer-events-none mix-blend-screen opacity-70"></div>
+      
+      <div className="w-full max-w-2xl glass-panel rounded-none flex flex-col max-h-[85vh] relative z-10">
+        <div className="p-4 sm:p-6 glass-panel-recessed border-b border-[var(--color-glass-border)] text-[var(--color-text-primary)] flex justify-between items-center flex-shrink-0 rounded-none">
           <div className="flex items-center space-x-3">
-            <Trophy size={28} className="text-yellow-400 fill-current drop-shadow-md" />
-            <h1 className="text-2xl font-bold tracking-wide">Leaderboard</h1>
+            <Trophy size={28} className="text-[var(--color-accent-highlight)]" />
+            <h1 className="text-3xl font-display font-bold tracking-tight text-[var(--color-text-primary)] uppercase">Leaderboard</h1>
           </div>
           <div className="flex items-center space-x-2">
             <button 
               onClick={() => toggleSetting('is_quiz_active')}
-              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.is_quiz_active ? "bg-green-500 hover:bg-green-600" : "bg-gray-600 hover:bg-gray-700")}
+              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.is_quiz_active ? "bg-[var(--color-feedback-success)] hover:bg-green-600" : "bg-gray-600 hover:bg-gray-700")}
               title="Toggle Quiz Active"
             >
               {settings.is_quiz_active ? <Square size={16} /> : <Play size={16} />}
@@ -170,7 +173,7 @@ export default function LeaderboardPage() {
             </button>
             <button 
               onClick={() => toggleSetting('show_leaderboard')}
-              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.show_leaderboard ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-600 hover:bg-gray-700")}
+              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.show_leaderboard ? "bg-[var(--color-accent-secondary)] hover:bg-[var(--color-accent-secondary-hover)]" : "bg-gray-600 hover:bg-gray-700")}
               title="Toggle Leaderboard"
             >
               {settings.show_leaderboard ? <Eye size={16} /> : <EyeOff size={16} />}
@@ -179,14 +182,14 @@ export default function LeaderboardPage() {
             <button 
               onClick={handleReset}
               disabled={resetting}
-              className="p-2 bg-red-600 rounded-full hover:bg-red-700 transition-colors disabled:opacity-50"
+              className="p-2 bg-[var(--color-feedback-error)] rounded-full hover:bg-red-700 transition-colors disabled:opacity-50"
               title="Reset Database"
             >
               <AlertTriangle size={20} className={clsx(resetting && "animate-pulse")} />
             </button>
             <button 
               onClick={handleRefresh}
-              className="p-2 bg-white/20 border border-white/20 rounded-full hover:bg-white/30 transition-colors"
+              className="p-2 bg-white/10 border border-white/20 rounded-full hover:bg-white/20 transition-colors"
               title="Refresh"
             >
               <RefreshCw size={20} className={clsx(refreshing && "animate-spin")} />
@@ -194,15 +197,15 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-black/10">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-transparent">
           {hidden ? (
-            <div className="h-full flex flex-col items-center justify-center text-gray-300 py-12 drop-shadow-md">
-              <EyeOff size={64} className="mb-4 opacity-50" />
-              <h2 className="text-2xl font-bold text-white">Leaderboard is Hidden</h2>
-              <p>The results will be revealed shortly!</p>
+            <div className="h-full flex flex-col items-center justify-center text-[var(--color-text-secondary)] py-12">
+              <EyeOff size={64} className="mb-4 opacity-50 text-[var(--color-accent-primary)]" />
+              <h2 className="text-3xl font-display font-semibold text-[var(--color-text-primary)] mb-2 tracking-tight">Leaderboard is Hidden</h2>
+              <p className="font-inter">The results will be revealed shortly!</p>
             </div>
           ) : leaderboard.length === 0 ? (
-            <div className="text-center py-12 text-gray-300 drop-shadow-sm">
+            <div className="text-center py-12 text-[var(--color-text-disabled)] font-inter">
               No completed participants yet.
             </div>
           ) : (
@@ -212,50 +215,50 @@ export default function LeaderboardPage() {
                 const isSilver = index === 1;
                 const isBronze = index === 2;
                 
-                const rowStyle = isGold ? "border-yellow-500/50 bg-yellow-500/20 text-white" 
-                               : isSilver ? "border-gray-300/50 bg-gray-400/20 text-white" 
-                               : isBronze ? "border-orange-500/50 bg-orange-500/20 text-white" 
-                               : "border-white/10 bg-white/5 text-gray-200";
+                const rowStyle = isGold ? "glass-panel-accent border border-[var(--color-accent-highlight)]/30 text-[var(--color-text-primary)]" 
+                               : isSilver ? "glass-panel-hover border border-gray-400/30 text-[var(--color-text-primary)]" 
+                               : isBronze ? "glass-panel-hover border border-orange-500/30 text-[var(--color-text-primary)]" 
+                               : "glass-panel-recessed text-[var(--color-text-secondary)]";
                                
-                const badgeStyle = isGold ? "bg-yellow-400 text-yellow-900 shadow-[0_0_15px_rgba(250,204,21,0.5)]" 
-                                 : isSilver ? "bg-gray-300 text-gray-900 shadow-[0_0_15px_rgba(209,213,219,0.5)]" 
-                                 : isBronze ? "bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
-                                 : "bg-white/20 text-white border border-white/20";
+                const badgeStyle = isGold ? "glass-panel text-[var(--color-accent-highlight)]" 
+                                 : isSilver ? "glass-panel text-gray-300" 
+                                 : isBronze ? "glass-panel text-orange-500" 
+                                 : "glass-panel-recessed text-[var(--color-text-primary)]";
                                  
                 return (
                   <div 
                     key={p.id}
                     className={twMerge(
-                      "flex flex-col p-4 rounded-xl border backdrop-blur-sm transition-all hover:bg-white/10",
+                      "flex flex-col p-4 rounded-none transition-all",
                       rowStyle
                     )}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className={twMerge(
-                          "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
+                          "w-10 h-10 rounded-sm flex items-center justify-center font-bold text-lg font-display tracking-tight",
                           badgeStyle
                         )}>
                           {index + 1}
                         </div>
                         <div>
-                          <div className="font-bold text-lg capitalize truncate max-w-[150px] sm:max-w-[200px]">
+                          <div className="font-display font-semibold text-xl truncate max-w-[150px] sm:max-w-[200px] text-[var(--color-text-primary)] tracking-tight leading-none pt-1">
                             {p.username}
                           </div>
-                          <div className="text-sm opacity-80 flex items-center space-x-1">
+                          <div className="text-sm opacity-80 flex items-center space-x-1 font-inter text-[var(--color-text-secondary)] mt-1">
                             <Clock size={14} />
                             <span>{p.total_time_spent.toFixed(2)}s</span>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-1 font-bold text-lg bg-white/20 text-white px-3 py-1 rounded-lg border border-white/10 shadow-inner">
+                      <div className="flex items-center space-x-1 font-display font-bold text-xl glass-panel-accent text-[var(--color-accent-primary)] px-3 py-1 rounded-none">
                         <span>{p.score}</span>
-                        <Star size={16} className="fill-current text-yellow-400" />
+                        <Star size={18} className="fill-current text-[var(--color-accent-primary)] mb-0.5" />
                       </div>
                     </div>
                     {p.q10_response && (
-                      <div className="mt-3 text-sm text-gray-300 bg-black/20 p-3 rounded-lg border border-white/10 italic">
+                      <div className="mt-3 text-sm text-[var(--color-text-secondary)] glass-panel-recessed p-3 rounded-none border-none italic font-inter">
                         &quot;{p.q10_response}&quot;
                       </div>
                     )}

@@ -43,21 +43,24 @@ export default function LandingPage({ onJoin }: LandingPageProps) {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 ieee-gradient text-white">
-      <div className="max-w-md w-full bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] overflow-hidden">
-        <div className="p-8 text-center">
-          <div className="w-20 h-20 bg-white/20 text-white rounded-full flex items-center justify-center mx-auto mb-6 shadow-sm border border-white/20">
-            <Zap size={40} className="fill-current drop-shadow-md" />
+    <div className="min-h-screen flex flex-col items-center justify-center p-4 marvel-bg text-[var(--color-text-primary)]">
+      {/* Subtle radial glow behind the main card */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] max-w-[600px] bg-[radial-gradient(ellipse_at_center,rgba(226,54,54,0.35)_0%,rgba(31,111,214,0.25)_50%,transparent_70%)] z-0 pointer-events-none mix-blend-screen opacity-90"></div>
+      
+      <div className="max-w-md w-full glass-panel glass-panel-cut rounded-none overflow-hidden relative z-10">
+        <div className="p-6 text-center">
+          <div className="w-20 h-20 glass-panel-accent text-[var(--color-accent-primary)] rounded-full flex items-center justify-center mx-auto mb-6">
+            <Zap size={40} className="fill-current" />
           </div>
           
-          <h1 className="text-3xl font-extrabold mb-2 text-white drop-shadow-md tracking-tight">
+          <h1 className="text-5xl md:text-6xl font-display font-semibold mb-1 text-[var(--color-text-primary)] tracking-tight drop-shadow-md">
             Fastest Finger First
           </h1>
-          <p className="text-gray-200 mb-8 font-medium">
-            HackWithIndia x IEEE Orientation
+          <p className="text-[var(--color-text-secondary)] mb-6 font-medium font-inter">
+            Marvel Trivia Challenge
           </p>
           
-          <form onSubmit={handleJoin} className="space-y-6">
+          <form onSubmit={handleJoin} className="space-y-4">
             <div>
               <label htmlFor="username" className="sr-only">Username</label>
               <input
@@ -65,28 +68,28 @@ export default function LandingPage({ onJoin }: LandingPageProps) {
                 type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
-                placeholder="Enter your unique username"
-                className="w-full px-4 py-4 bg-black/20 border border-white/20 rounded-xl focus:outline-none focus:border-white focus:ring-1 focus:ring-white transition-colors text-lg text-white placeholder-gray-300"
+                placeholder="Enter your hero alias"
+                className="w-full px-4 py-3 glass-panel-recessed rounded-none focus:outline-none focus:ring-1 focus:ring-[var(--color-accent-primary)] transition-colors text-lg text-[var(--color-text-primary)] placeholder-[var(--color-text-disabled)] font-inter"
                 disabled={loading}
               />
-              {error && <p className="text-red-300 font-medium text-sm mt-2 text-left">{error}</p>}
+              {error && <p className="text-[var(--color-feedback-error)] font-medium text-sm mt-2 text-left">{error}</p>}
             </div>
             
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center space-x-2 bg-white/20 hover:bg-white/30 border border-white/30 text-white py-4 rounded-xl font-bold text-lg transition-all active:scale-95 disabled:opacity-70 disabled:active:scale-100 backdrop-blur-sm shadow-lg"
+              className="w-full flex items-center justify-center space-x-2 glass-panel-accent hover:glass-panel-hover active:glass-panel-recessed text-[var(--color-text-primary)] py-3 rounded-none font-display font-semibold text-2xl tracking-tight transition-all disabled:opacity-50"
             >
-              <span>{loading ? 'Joining...' : 'Join Challenge'}</span>
-              {!loading && <ArrowRight size={20} />}
+              <span>{loading ? 'Entering...' : 'Join Challenge'}</span>
+              {!loading && <ArrowRight size={28} className="mt-1" />}
             </button>
           </form>
         </div>
         
-        <div className="bg-black/10 p-6 border-t border-white/10">
-          <div className="flex items-center space-x-3 text-sm text-gray-200">
-            <Trophy className="text-yellow-400 flex-shrink-0 drop-shadow" size={20} />
-            <p>Answer 10 questions as fast as possible to climb the leaderboard. Good luck!</p>
+        <div className="glass-panel-recessed rounded-none p-4 border-t border-[var(--color-glass-border)]">
+          <div className="flex items-center space-x-3 text-sm text-[var(--color-text-secondary)] font-inter">
+            <Trophy className="text-[var(--color-accent-highlight)] flex-shrink-0" size={20} />
+            <p>Answer 10 Marvel questions as fast as possible to climb the leaderboard. Good luck!</p>
           </div>
         </div>
       </div>
