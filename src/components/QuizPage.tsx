@@ -173,11 +173,11 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
   
   return (
     <div className="min-h-screen flex flex-col items-center p-4 ieee-gradient text-white">
-      <div className="w-full max-w-2xl bg-white text-gray-900 rounded-3xl shadow-2xl overflow-hidden mt-6">
+      <div className="w-full max-w-2xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] overflow-hidden mt-6">
         
         {/* Header with Timer */}
-        <div className="p-6 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-          <div className="font-bold text-lg text-[#00629B]">
+        <div className="p-6 border-b border-white/20 flex justify-between items-center bg-black/10">
+          <div className="font-bold text-lg text-white tracking-wide">
             Question {qIndex + 1} / 10
           </div>
           
@@ -190,7 +190,7 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
                 stroke="currentColor"
                 strokeWidth="4"
                 fill="transparent"
-                className="text-gray-200"
+                className="text-white/20"
               />
               <circle
                 cx="32"
@@ -203,13 +203,13 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
                 strokeDashoffset={strokeDashoffset}
                 className={clsx(
                   "transition-all duration-1000 ease-linear",
-                  timeLeft > 10 ? "text-[#00629B]" : "text-red-500"
+                  timeLeft > 10 ? "text-white" : "text-red-400"
                 )}
               />
             </svg>
             <div className={clsx(
               "absolute text-xl font-bold",
-              timeLeft > 10 ? "text-gray-700" : "text-red-500 animate-pulse"
+              timeLeft > 10 ? "text-white" : "text-red-400 animate-pulse drop-shadow-md"
             )}>
               {timeLeft}
             </div>
@@ -218,25 +218,25 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
 
         {/* Question Body */}
         <div className="p-6 sm:p-8">
-          <h2 className="text-2xl font-semibold mb-8 leading-relaxed">
+          <h2 className="text-2xl font-semibold mb-8 leading-relaxed text-white drop-shadow-sm">
             {question.question}
           </h2>
 
           {question.type === 'mcq' ? (
             <div className="space-y-4">
               {question.options?.map((opt: string, idx: number) => {
-                let btnStyle = "bg-gray-50 border-gray-200 hover:border-[#00629B] hover:bg-blue-50 text-gray-700";
+                let btnStyle = "bg-white/10 border-white/20 hover:border-white/50 hover:bg-white/20 text-white backdrop-blur-sm";
                 
                 if (feedback) {
                   if (idx === feedback.correctIndex) {
-                    btnStyle = "bg-green-100 border-green-500 text-green-800"; // Correct answer (always green)
+                    btnStyle = "bg-green-500/40 border-green-400 text-white shadow-[0_0_15px_rgba(74,222,128,0.4)]"; // Correct answer
                   } else if (idx === selectedOption && !feedback.isCorrect) {
-                    btnStyle = "bg-red-100 border-red-500 text-red-800"; // Picked wrong answer
+                    btnStyle = "bg-red-500/40 border-red-400 text-white shadow-[0_0_15px_rgba(248,113,113,0.4)]"; // Picked wrong answer
                   } else {
-                    btnStyle = "bg-gray-50 border-gray-100 opacity-50 cursor-not-allowed text-gray-400"; // Others
+                    btnStyle = "bg-white/5 border-white/10 opacity-50 cursor-not-allowed text-gray-300"; // Others
                   }
                 } else if (selectedOption === idx) {
-                  btnStyle = "bg-blue-100 border-[#00629B] text-[#00629B]";
+                  btnStyle = "bg-white/30 border-white text-white shadow-[0_0_15px_rgba(255,255,255,0.3)]";
                 }
 
                 return (
@@ -257,7 +257,7 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
             </div>
           ) : (
             <div className="space-y-4">
-              <div className="bg-yellow-50 text-yellow-800 p-4 rounded-xl flex items-start space-x-3 text-sm">
+              <div className="bg-yellow-500/20 border border-yellow-500/30 text-yellow-100 p-4 rounded-xl flex items-start space-x-3 text-sm backdrop-blur-sm">
                 <AlertCircle className="flex-shrink-0 mt-0.5" size={18} />
                 <p>This is the final tie-breaker question. Your response will be reviewed if there is a tie.</p>
               </div>
@@ -266,19 +266,19 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
                 onChange={(e) => setTextResponse(e.target.value)}
                 disabled={submitting}
                 placeholder="Type your brief proposal here..."
-                className="w-full h-40 p-4 border-2 border-gray-200 rounded-xl focus:border-[#00629B] focus:ring-1 focus:ring-[#00629B] outline-none resize-none text-lg"
+                className="w-full h-40 p-4 bg-black/20 border border-white/20 rounded-xl focus:border-white focus:ring-1 focus:ring-white outline-none resize-none text-lg text-white placeholder-gray-400 backdrop-blur-sm"
               />
               <div className="flex items-center justify-between">
                 <span className={clsx(
                   "text-sm font-medium",
-                  textResponse.trim().length >= 20 ? "text-green-600" : "text-gray-400"
+                  textResponse.trim().length >= 20 ? "text-green-400" : "text-gray-300"
                 )}>
                   {textResponse.trim().length} chars (Min 20 required)
                 </span>
                 <button
                   onClick={handleTextSubmit}
                   disabled={submitting || textResponse.trim().length < 20}
-                  className="bg-[#00629B] hover:bg-[#004c7a] disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-bold flex items-center space-x-2 transition-transform active:scale-95"
+                  className="bg-white/20 hover:bg-white/30 border border-white/30 disabled:opacity-50 disabled:cursor-not-allowed text-white px-6 py-3 rounded-xl font-bold flex items-center space-x-2 transition-transform active:scale-95 shadow-lg backdrop-blur-sm"
                 >
                   <span>Submit & Finish</span>
                   <Send size={18} />

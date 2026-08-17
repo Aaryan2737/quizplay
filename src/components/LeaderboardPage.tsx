@@ -153,11 +153,11 @@ export default function LeaderboardPage() {
 
   return (
     <div className="min-h-screen flex flex-col items-center p-4 ieee-gradient text-white py-12">
-      <div className="w-full max-w-2xl bg-white text-gray-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[85vh]">
-        <div className="p-6 bg-[#00629B] text-white flex justify-between items-center flex-shrink-0">
+      <div className="w-full max-w-2xl bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl shadow-[0_8px_32px_0_rgba(0,0,0,0.3)] overflow-hidden flex flex-col max-h-[85vh]">
+        <div className="p-6 bg-black/20 border-b border-white/20 text-white flex justify-between items-center flex-shrink-0">
           <div className="flex items-center space-x-3">
-            <Trophy size={28} className="text-yellow-400 fill-current" />
-            <h1 className="text-2xl font-bold">Leaderboard</h1>
+            <Trophy size={28} className="text-yellow-400 fill-current drop-shadow-md" />
+            <h1 className="text-2xl font-bold tracking-wide">Leaderboard</h1>
           </div>
           <div className="flex items-center space-x-2">
             <button 
@@ -186,7 +186,7 @@ export default function LeaderboardPage() {
             </button>
             <button 
               onClick={handleRefresh}
-              className="p-2 bg-[#004c7a] rounded-full hover:bg-[#003d61] transition-colors"
+              className="p-2 bg-white/20 border border-white/20 rounded-full hover:bg-white/30 transition-colors"
               title="Refresh"
             >
               <RefreshCw size={20} className={clsx(refreshing && "animate-spin")} />
@@ -194,15 +194,15 @@ export default function LeaderboardPage() {
           </div>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
+        <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-black/10">
           {hidden ? (
-            <div className="h-full flex flex-col items-center justify-center text-gray-500 py-12">
+            <div className="h-full flex flex-col items-center justify-center text-gray-300 py-12 drop-shadow-md">
               <EyeOff size={64} className="mb-4 opacity-50" />
-              <h2 className="text-2xl font-bold">Leaderboard is Hidden</h2>
+              <h2 className="text-2xl font-bold text-white">Leaderboard is Hidden</h2>
               <p>The results will be revealed shortly!</p>
             </div>
           ) : leaderboard.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-300 drop-shadow-sm">
               No completed participants yet.
             </div>
           ) : (
@@ -212,21 +212,21 @@ export default function LeaderboardPage() {
                 const isSilver = index === 1;
                 const isBronze = index === 2;
                 
-                const rowStyle = isGold ? "border-yellow-400 bg-yellow-50/50" 
-                               : isSilver ? "border-gray-300 bg-gray-50/50" 
-                               : isBronze ? "border-amber-600 bg-amber-50/50" 
-                               : "border-gray-200 bg-white";
+                const rowStyle = isGold ? "border-yellow-500/50 bg-yellow-500/20 text-white" 
+                               : isSilver ? "border-gray-300/50 bg-gray-400/20 text-white" 
+                               : isBronze ? "border-orange-500/50 bg-orange-500/20 text-white" 
+                               : "border-white/10 bg-white/5 text-gray-200";
                                
-                const badgeStyle = isGold ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" 
-                                 : isSilver ? "bg-gray-400 text-white shadow-lg shadow-gray-200" 
-                                 : isBronze ? "bg-amber-600 text-white shadow-lg shadow-amber-200" 
-                                 : "bg-gray-100 text-gray-500";
+                const badgeStyle = isGold ? "bg-yellow-400 text-yellow-900 shadow-[0_0_15px_rgba(250,204,21,0.5)]" 
+                                 : isSilver ? "bg-gray-300 text-gray-900 shadow-[0_0_15px_rgba(209,213,219,0.5)]" 
+                                 : isBronze ? "bg-orange-500 text-white shadow-[0_0_15px_rgba(249,115,22,0.5)]" 
+                                 : "bg-white/20 text-white border border-white/20";
                                  
                 return (
                   <div 
                     key={p.id}
                     className={twMerge(
-                      "flex flex-col p-4 rounded-xl border transition-shadow shadow-sm hover:shadow-md",
+                      "flex flex-col p-4 rounded-xl border backdrop-blur-sm transition-all hover:bg-white/10",
                       rowStyle
                     )}
                   >
@@ -239,23 +239,23 @@ export default function LeaderboardPage() {
                           {index + 1}
                         </div>
                         <div>
-                          <div className="font-bold text-lg text-gray-900 capitalize truncate max-w-[150px] sm:max-w-[200px]">
+                          <div className="font-bold text-lg capitalize truncate max-w-[150px] sm:max-w-[200px]">
                             {p.username}
                           </div>
-                          <div className="text-sm text-gray-500 flex items-center space-x-1">
+                          <div className="text-sm opacity-80 flex items-center space-x-1">
                             <Clock size={14} />
                             <span>{p.total_time_spent.toFixed(2)}s</span>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-1 font-bold text-lg bg-[#00629B]/10 text-[#00629B] px-3 py-1 rounded-lg">
+                      <div className="flex items-center space-x-1 font-bold text-lg bg-white/20 text-white px-3 py-1 rounded-lg border border-white/10 shadow-inner">
                         <span>{p.score}</span>
-                        <Star size={16} className="fill-current" />
+                        <Star size={16} className="fill-current text-yellow-400" />
                       </div>
                     </div>
                     {p.q10_response && (
-                      <div className="mt-3 text-sm text-gray-700 bg-white/50 p-3 rounded-lg border border-gray-100 italic">
+                      <div className="mt-3 text-sm text-gray-300 bg-black/20 p-3 rounded-lg border border-white/10 italic">
                         &quot;{p.q10_response}&quot;
                       </div>
                     )}

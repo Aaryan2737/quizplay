@@ -51,9 +51,9 @@ export default function Home() {
       {view === 'leaderboard' && <ThankYouPage />}
       {view === 'inactive' && (
         <div className="min-h-screen flex flex-col items-center justify-center p-4 ieee-gradient text-white text-center">
-          <div className="bg-white/10 p-8 rounded-3xl backdrop-blur-md max-w-md border border-white/20 shadow-2xl">
-            <h1 className="text-3xl font-bold mb-4">Quiz is Closed</h1>
-            <p className="text-lg opacity-90">The quiz is currently not active. Please wait for the event coordinators to start the session, or check back later.</p>
+          <div className="bg-white/10 p-8 rounded-3xl backdrop-blur-xl max-w-md border border-white/20 shadow-[0_8px_32px_0_rgba(0,0,0,0.3)]">
+            <h1 className="text-3xl font-bold mb-4 drop-shadow-md tracking-tight">Quiz is Closed</h1>
+            <p className="text-lg text-gray-200">The quiz is currently not active. Please wait for the event coordinators to start the session, or check back later.</p>
           </div>
         </div>
       )}
