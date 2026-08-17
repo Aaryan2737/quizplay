@@ -159,6 +159,7 @@ export default function LeaderboardPage() {
             <Trophy size={28} className="text-yellow-400 fill-current" />
             <h1 className="text-2xl font-bold">Leaderboard</h1>
           </div>
+          <div className="flex items-center space-x-2">
             <button 
               onClick={() => toggleSetting('is_quiz_active')}
               className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.is_quiz_active ? "bg-green-500 hover:bg-green-600" : "bg-gray-600 hover:bg-gray-700")}
