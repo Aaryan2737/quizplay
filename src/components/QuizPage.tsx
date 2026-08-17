@@ -9,6 +9,7 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
   const [question, setQuestion] = useState<any>(null);
   const [qIndex, setQIndex] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   // Timer state
   const [timeLeft, setTimeLeft] = useState(30);
@@ -36,9 +37,12 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
         setQuestion(data.question);
         setQIndex(data.current_question_index);
         startTimer(data.question.type);
+      } else {
+        setError(data.error || 'Failed to load question from server.');
       }
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
+      setError(err.message || 'A network error occurred.');
     } finally {
       setLoading(false);
     }
@@ -136,6 +140,24 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
         <div className="animate-pulse flex flex-col items-center">
           <div className="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
           <p className="mt-4 font-bold text-xl">Loading question...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center ieee-gradient text-white p-4">
+        <div className="bg-red-500/20 p-8 rounded-3xl backdrop-blur-md max-w-md border border-red-500/50 shadow-2xl text-center">
+          <AlertCircle size={48} className="mx-auto mb-4 text-red-300" />
+          <h1 className="text-2xl font-bold mb-4">Error Loading Question</h1>
+          <p className="text-lg opacity-90">{error}</p>
+          <button 
+            onClick={() => { setError(null); fetchQuestion(); }}
+            className="mt-6 px-6 py-2 bg-white text-red-600 rounded-full font-bold hover:bg-gray-100"
+          >
+            Try Again
+          </button>
         </div>
       </div>
     );
