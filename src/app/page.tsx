@@ -6,7 +6,7 @@ import QuizPage from '@/components/QuizPage';
 import ThankYouPage from '@/components/ThankYouPage';
 
 export default function Home() {
-  const [view, setView] = useState<'loading' | 'landing' | 'quiz' | 'leaderboard'>('loading');
+  const [view, setView] = useState<'loading' | 'landing' | 'quiz' | 'leaderboard' | 'inactive'>('loading');
 
   useEffect(() => {
     const checkState = async () => {
@@ -19,9 +19,11 @@ export default function Home() {
         }
         
         const data = await res.json();
-        if (data.completed) {
+        if (data.inactive || res.status === 403) {
+          setView('inactive');
+        } else if (data.completed) {
           setView('leaderboard');
-        } else if (data.success) {
+        } else if (data.success || data.question) {
           setView('quiz');
         } else {
           setView('landing');
@@ -47,6 +49,14 @@ export default function Home() {
       {view === 'landing' && <LandingPage onJoin={() => setView('quiz')} />}
       {view === 'quiz' && <QuizPage onComplete={() => setView('leaderboard')} />}
       {view === 'leaderboard' && <ThankYouPage />}
+      {view === 'inactive' && (
+        <div className="min-h-screen flex flex-col items-center justify-center p-4 ieee-gradient text-white text-center">
+          <div className="bg-white/10 p-8 rounded-3xl backdrop-blur-md max-w-md border border-white/20 shadow-2xl">
+            <h1 className="text-3xl font-bold mb-4">Quiz is Closed</h1>
+            <p className="text-lg opacity-90">The quiz is currently not active. Please wait for the event coordinators to start the session, or check back later.</p>
+          </div>
+        </div>
+      )}
     </main>
   );
 }

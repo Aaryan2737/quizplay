@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import confetti from 'canvas-confetti';
-import { Trophy, RefreshCw, Clock, Star, AlertTriangle } from 'lucide-react';
+import { Trophy, RefreshCw, Clock, Star, AlertTriangle, Play, Square, Eye, EyeOff } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -19,13 +19,28 @@ export default function LeaderboardPage() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [resetting, setResetting] = useState(false);
+  const [settings, setSettings] = useState({ is_quiz_active: false, show_leaderboard: false });
+  const [hidden, setHidden] = useState(false);
+
+  const fetchSettings = async () => {
+    try {
+      const res = await fetch('/api/settings', { cache: 'no-store' });
+      const data = await res.json();
+      if (data.success) setSettings(data.settings);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const fetchLeaderboard = async () => {
     try {
       const res = await fetch('/api/leaderboard', { cache: 'no-store' });
       const data = await res.json();
-      if (data.success) {
-        setLeaderboard(data.leaderboard);
+      if (data.hidden) {
+        setHidden(true);
+      } else if (data.success || data.leaderboard) {
+        setHidden(false);
+        setLeaderboard(data.leaderboard || []);
       }
     } catch (error) {
       console.error('Failed to fetch leaderboard:', error);
@@ -37,8 +52,9 @@ export default function LeaderboardPage() {
 
   useEffect(() => {
     fetchLeaderboard();
+    fetchSettings();
     
-    // Trigger confetti on mount
+    // Trigger confetti on mount if not hidden
     const duration = 3000;
     const end = Date.now() + duration;
 
@@ -68,6 +84,32 @@ export default function LeaderboardPage() {
   const handleRefresh = () => {
     setRefreshing(true);
     fetchLeaderboard();
+    fetchSettings();
+  };
+
+  const toggleSetting = async (key: 'is_quiz_active' | 'show_leaderboard') => {
+    const password = prompt('Type the admin password to change settings:');
+    if (password !== 'ieee-admin-2026') {
+      if (password !== null) alert('Incorrect password.');
+      return;
+    }
+    try {
+      const newSettings = { ...settings, [key]: !settings[key] };
+      const res = await fetch('/api/settings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password, ...newSettings })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSettings(data.settings);
+        fetchLeaderboard(); // refresh leaderboard based on new visibility
+      } else {
+        alert('Failed to update: ' + data.error);
+      }
+    } catch (err) {
+      alert('Error updating settings.');
+    }
   };
 
   const handleReset = async () => {
@@ -117,7 +159,22 @@ export default function LeaderboardPage() {
             <Trophy size={28} className="text-yellow-400 fill-current" />
             <h1 className="text-2xl font-bold">Leaderboard</h1>
           </div>
-          <div className="flex items-center space-x-2">
+            <button 
+              onClick={() => toggleSetting('is_quiz_active')}
+              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.is_quiz_active ? "bg-green-500 hover:bg-green-600" : "bg-gray-600 hover:bg-gray-700")}
+              title="Toggle Quiz Active"
+            >
+              {settings.is_quiz_active ? <Square size={16} /> : <Play size={16} />}
+              {settings.is_quiz_active ? 'Quiz Active' : 'Quiz Closed'}
+            </button>
+            <button 
+              onClick={() => toggleSetting('show_leaderboard')}
+              className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.show_leaderboard ? "bg-blue-500 hover:bg-blue-600" : "bg-gray-600 hover:bg-gray-700")}
+              title="Toggle Leaderboard"
+            >
+              {settings.show_leaderboard ? <Eye size={16} /> : <EyeOff size={16} />}
+              {settings.show_leaderboard ? 'LB Visible' : 'LB Hidden'}
+            </button>
             <button 
               onClick={handleReset}
               disabled={resetting}
@@ -137,26 +194,46 @@ export default function LeaderboardPage() {
         </div>
 
         <div className="flex-1 overflow-y-auto p-4 sm:p-6 bg-gray-50">
-          {leaderboard.length === 0 ? (
+          {hidden ? (
+            <div className="h-full flex flex-col items-center justify-center text-gray-500 py-12">
+              <EyeOff size={64} className="mb-4 opacity-50" />
+              <h2 className="text-2xl font-bold">Leaderboard is Hidden</h2>
+              <p>The results will be revealed shortly!</p>
+            </div>
+          ) : leaderboard.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
               No completed participants yet.
             </div>
           ) : (
             <div className="space-y-3">
-              {leaderboard.map((p, index) => {
+              {leaderboard.slice(0, 10).map((p, index) => {
+                const isGold = index === 0;
+                const isSilver = index === 1;
+                const isBronze = index === 2;
+                
+                const rowStyle = isGold ? "border-yellow-400 bg-yellow-50/50" 
+                               : isSilver ? "border-gray-300 bg-gray-50/50" 
+                               : isBronze ? "border-amber-600 bg-amber-50/50" 
+                               : "border-gray-200 bg-white";
+                               
+                const badgeStyle = isGold ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" 
+                                 : isSilver ? "bg-gray-400 text-white shadow-lg shadow-gray-200" 
+                                 : isBronze ? "bg-amber-600 text-white shadow-lg shadow-amber-200" 
+                                 : "bg-gray-100 text-gray-500";
+                                 
                 return (
                   <div 
                     key={p.id}
                     className={twMerge(
                       "flex flex-col p-4 rounded-xl border transition-shadow shadow-sm hover:shadow-md",
-                      index === 0 ? "border-yellow-400 bg-yellow-50/50" : "border-gray-200 bg-white"
+                      rowStyle
                     )}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center space-x-4">
                         <div className={twMerge(
                           "w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg",
-                          index === 0 ? "bg-yellow-400 text-white shadow-lg shadow-yellow-200" : "bg-gray-100 text-gray-500"
+                          badgeStyle
                         )}>
                           {index + 1}
                         </div>

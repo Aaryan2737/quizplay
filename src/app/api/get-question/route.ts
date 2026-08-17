@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import pool from '@/lib/db';
 import { cookies } from 'next/headers';
-import { getClientQuestion } from '@/lib/questions';
+import { getClientQuestion as getSanitizedQuestion, questions } from '@/lib/questions';
 
 export async function GET() {
   try {
+    const settingsRes = await pool.query(`SELECT is_quiz_active FROM settings WHERE id = 1`);
+    if (settingsRes.rows.length > 0 && !settingsRes.rows[0].is_quiz_active) {
+      return NextResponse.json({ error: 'Quiz is not active currently', inactive: true }, { status: 403 });
+    }
+
     const cookieStore = await cookies();
     const participantId = cookieStore.get('participant_id')?.value;
 
@@ -12,35 +17,48 @@ export async function GET() {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: user, error: userError } = await supabase
-      .from('participants')
-      .select('current_question_index, completed')
-      .eq('id', participantId)
-      .single();
+    // Fetch user and update question_started_at
+    const result = await pool.query(
+      `UPDATE participants 
+       SET question_started_at = NOW() 
+       WHERE id = $1 AND completed = false
+       RETURNING current_question_index;`,
+      [participantId]
+    );
 
-    if (userError || !user) {
-      return NextResponse.json({ error: 'Participant not found' }, { status: 404 });
+    if (result.rows.length === 0) {
+      // User might be completed or doesn't exist
+      const checkCompleted = await pool.query(
+        `SELECT completed FROM participants WHERE id = $1`,
+        [participantId]
+      );
+      if (checkCompleted.rows.length > 0 && checkCompleted.rows[0].completed) {
+         return NextResponse.json({ completed: true });
+      }
+      return NextResponse.json({ error: 'Participant not found or invalid state' }, { status: 404 });
     }
 
-    if (user.completed || user.current_question_index >= 10) {
+    const { current_question_index } = result.rows[0];
+
+    if (current_question_index >= questions.length) {
+      // Mark as completed just in case
+      await pool.query(`UPDATE participants SET completed = true WHERE id = $1`, [participantId]);
       return NextResponse.json({ completed: true });
     }
 
-    // Update question_started_at to NOW()
-    await supabase
-      .from('participants')
-      .update({ question_started_at: new Date().toISOString() })
-      .eq('id', participantId);
-
-    const question = getClientQuestion(user.current_question_index);
+    const question = getSanitizedQuestion(current_question_index);
 
     return NextResponse.json({
-      success: true,
       question,
-      current_question_index: user.current_question_index,
+      current_question_index,
+      total_questions: questions.length
     });
-  } catch (error) {
-    console.error('Get question error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+
+  } catch (error: any) {
+    console.error('Get Question Error:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }

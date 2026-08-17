@@ -30,7 +30,7 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
       const data = await res.json();
       if (data.completed) {
         onComplete();
-      } else if (data.success) {
+      } else if (data.success || data.question) {
         setQuestion(data.question);
         setQIndex(data.current_question_index);
         startTimer(data.question.type);

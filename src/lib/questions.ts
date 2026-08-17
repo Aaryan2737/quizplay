@@ -9,91 +9,78 @@ export type Question = {
 };
 
 export const questions: Question[] = [
-  // 5 IEEE trivia questions
   {
     id: 1,
     type: 'mcq',
-    question: 'What does IEEE stand for?',
+    question: 'The guy who created Linux (the operating system running most of the internet) also created Git and GitHub to help developers collaborate. Who is he?',
     options: [
-      'Institute of Electrical and Electronics Engineers',
-      'International Electrical and Electronic Enterprises',
-      'Institute of Electronic and Electrical Engineers',
-      'International Engineering and Electronic Engineers'
+      'Bill Gates',
+      'Linus Torvalds',
+      'Steve Jobs',
+      'Mark Zuckerberg'
     ],
-    correctAnswerIndex: 0
+    correctAnswerIndex: 1
   },
   {
     id: 2,
     type: 'mcq',
-    question: 'In what year was IEEE originally founded?',
-    options: ['1884', '1912', '1947', '1963'],
-    correctAnswerIndex: 3 // AIEE in 1884, IRE in 1912, merged in 1963 to form IEEE
+    question: 'You are pulling an all-nighter to finish an assignment. The classic developer fuel is coffee. Which programming language is famously named after an island known for its coffee?',
+    options: ['Mocha', 'Python', 'Java', 'Espresso'],
+    correctAnswerIndex: 2
   },
   {
     id: 3,
     type: 'mcq',
-    question: 'Which of the following is NOT an IEEE standard?',
-    options: ['802.11 (Wi-Fi)', '802.3 (Ethernet)', '1394 (FireWire)', 'HTML5'],
-    correctAnswerIndex: 3
+    question: 'When the college WiFi unexpectedly drops 5 minutes before your submission deadline, which 8-bit hero usually appears on your Chrome browser to save you from boredom?',
+    options: ['Mario', 'Sonic', 'T-Rex', 'Pac-Man'],
+    correctAnswerIndex: 2
   },
   {
     id: 4,
     type: 'mcq',
-    question: 'Where is the IEEE corporate headquarters located?',
-    options: [
-      'New York City, New York',
-      'Piscataway, New Jersey',
-      'San Jose, California',
-      'Boston, Massachusetts'
-    ],
-    correctAnswerIndex: 0
+    question: 'In July 2024, a massive global IT outage caused millions of Windows computers to show a "Blue Screen of Death", grounding flights and stopping banks. Which cybersecurity company\'s update was responsible?',
+    options: ['Norton', 'McAfee', 'CrowdStrike', 'Kaspersky'],
+    correctAnswerIndex: 2
   },
   {
     id: 5,
     type: 'mcq',
-    question: 'What is the highest grade of IEEE membership?',
-    options: ['Senior Member', 'Fellow', 'Life Member', 'Honorary Member'],
+    question: 'The term "Computer Bug" was popularized when a real insect was found stuck inside an early electromechanical computer (the Harvard Mark II) in 1947. Which insect was it?',
+    options: ['A spider', 'A moth', 'A cockroach', 'A beetle'],
     correctAnswerIndex: 1
   },
-  // 4 FIFA World Cup 2026 trivia questions
   {
     id: 6,
     type: 'mcq',
-    question: 'Modern FIFA World Cup stadiums rely on high-speed wireless networks so tens of thousands of fans can share photos and videos at the exact same time. Which famous wireless technology, built on the IEEE 802.11 standard, makes this possible?',
-    options: ['Bluetooth', 'Wi-Fi', 'GPS', 'NFC'],
+    question: 'Two famous tech billionaires recently made headlines by agreeing to a literal physical "cage match" (though it hasn\'t happened yet). Who were they?',
+    options: ['Jeff Bezos & Bill Gates', 'Elon Musk & Mark Zuckerberg', 'Tim Cook & Sundar Pichai', 'Sam Altman & Elon Musk'],
     correctAnswerIndex: 1
   },
   {
     id: 7,
     type: 'mcq',
-    question: 'Recent World Cups use a high-tech "connected ball" containing a smart sensor to help referees make precise offside decisions. Which global engineering organization creates the technical standards that allow these sensors to transmit data reliably?',
-    options: ['NASA', 'WHO', 'IEEE', 'IMF'],
-    correctAnswerIndex: 2
+    question: 'You finally write a piece of code that works, push it to GitHub, and your senior replies with "LGTM". What does this stand for in developer culture?',
+    options: ['Let\'s Go To Meetings', 'Looks Good To Me', 'Little Glitches, Too Many', 'Leave GitHub To Me'],
+    correctAnswerIndex: 1
   },
   {
     id: 8,
     type: 'mcq',
-    question: 'Which of these cities is NOT hosting a 2026 World Cup match?',
-    options: ['Toronto', 'Monterrey', 'Chicago', 'Los Angeles'],
-    correctAnswerIndex: 2
+    question: 'Which of these is the most used password in the world (and definitely the one you shouldn\'t use for your college portal)?',
+    options: ['password', '123456', 'qwerty', 'admin123'],
+    correctAnswerIndex: 1
   },
   {
     id: 9,
     type: 'mcq',
-    question: 'Where is the 2026 FIFA World Cup final scheduled to be played?',
-    options: [
-      'MetLife Stadium, New Jersey',
-      'Estadio Azteca, Mexico City',
-      'SoFi Stadium, Los Angeles',
-      'AT&T Stadium, Dallas'
-    ],
-    correctAnswerIndex: 0
+    question: 'Which AI tool, launched in late 2022 by OpenAI, became the fastest-growing consumer application in history and every college student\'s best friend?',
+    options: ['Midjourney', 'GitHub Copilot', 'ChatGPT', 'Claude'],
+    correctAnswerIndex: 2
   },
-  // 1 Subjective Text Question
   {
     id: 10,
     type: 'text',
-    question: 'If you get a chance to publish an IEEE conference paper in the domain of SDG (Sustainable Development Goals), what technical solution or topic would you propose? (Briefly explain in 1-2 sentences).',
+    question: 'If you had an unlimited budget to build a tech startup or app specifically to help freshers survive their first year of college, what would it do? (Explain briefly in 1-2 sentences).',
     options: []
   }
 ];

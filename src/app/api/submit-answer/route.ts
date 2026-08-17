@@ -1,10 +1,15 @@
 import { NextResponse } from 'next/server';
-import { supabase } from '@/lib/supabase';
+import pool from '@/lib/db';
 import { cookies } from 'next/headers';
-import { questions } from '@/lib/questions';
+import { questions, Question } from '@/lib/questions';
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
+    const settingsRes = await pool.query(`SELECT is_quiz_active FROM settings WHERE id = 1`);
+    if (settingsRes.rows.length > 0 && !settingsRes.rows[0].is_quiz_active) {
+      return NextResponse.json({ error: 'Quiz is not active currently', inactive: true }, { status: 403 });
+    }
+
     const cookieStore = await cookies();
     const participantId = cookieStore.get('participant_id')?.value;
 
@@ -12,81 +17,100 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const body = await req.json();
-    const { answerIndex, textResponse } = body;
+    const { answerIndex, textResponse } = await request.json();
 
-    const { data: user, error: userError } = await supabase
-      .from('participants')
-      .select('current_question_index, question_started_at, completed, score, total_time_spent')
-      .eq('id', participantId)
-      .single();
+    // 1. Fetch user's current state and timing
+    const userResult = await pool.query(
+      `SELECT current_question_index, question_started_at, completed 
+       FROM participants 
+       WHERE id = $1`,
+      [participantId]
+    );
 
-    if (userError || !user) {
+    if (userResult.rows.length === 0) {
       return NextResponse.json({ error: 'Participant not found' }, { status: 404 });
     }
+
+    const user = userResult.rows[0];
 
     if (user.completed) {
       return NextResponse.json({ error: 'Quiz already completed' }, { status: 400 });
     }
 
     const qIndex = user.current_question_index;
-    if (qIndex >= 10) {
+    
+    if (qIndex >= questions.length) {
       return NextResponse.json({ error: 'Invalid question index' }, { status: 400 });
     }
 
-    const question = questions[qIndex];
-    const maxTime = question.type === 'text' ? 60 : 30;
+    const currentQ = questions[qIndex];
 
-    // Clamp duration to max time plus small grace period (e.g. 2s)
-    let duration = (Date.now() - new Date(user.question_started_at).getTime()) / 1000;
-    if (isNaN(duration) || duration < 0) duration = 0;
-    if (duration > maxTime + 2) duration = maxTime; // Clamped to max if exceeded
-    
-    if (question.type === 'mcq') {
-      const isCorrect = answerIndex === question.correctAnswerIndex;
-      const scoreIncrement = isCorrect ? 1 : 0;
+    // 2. Calculate duration clamped to max 30s
+    let durationSec = 30.0;
+    if (user.question_started_at) {
+      const startedAt = new Date(user.question_started_at).getTime();
+      const now = Date.now();
+      const diffSec = (now - startedAt) / 1000.0;
+      // If user submits before 30s, take exact time. If they exceed, it clamps to 30.0
+      // We allow a tiny buffer (32s) for network latency before clamping to 30s
+      if (diffSec < 32.0) {
+        durationSec = Math.min(diffSec, 30.0);
+      }
+    }
+
+    // 3. Process Answer
+    let isCorrect = false;
+
+    if (currentQ.type === 'mcq') {
+      const mcq = currentQ as Question;
+      if (answerIndex === mcq.correctAnswerIndex) {
+        isCorrect = true;
+      }
       
-      const { error: updateError } = await supabase
-        .from('participants')
-        .update({
-          score: user.score + scoreIncrement,
-          total_time_spent: user.total_time_spent + duration,
-          current_question_index: user.current_question_index + 1
-        })
-        .eq('id', participantId);
-        
-      if (updateError) throw updateError;
-      
+      // Update DB
+      await pool.query(
+        `UPDATE participants 
+         SET score = score + $1,
+             total_time_spent = total_time_spent + $2,
+             current_question_index = current_question_index + 1
+         WHERE id = $3`,
+        [isCorrect ? 1 : 0, durationSec, participantId]
+      );
+
       return NextResponse.json({
         success: true,
         correct: isCorrect,
-        correctAnswerIndex: question.correctAnswerIndex,
+        correctAnswerIndex: mcq.correctAnswerIndex, // send back for immediate UI feedback
         nextIndex: qIndex + 1
       });
-    } else {
-      // Q10 Text question
-      const response = textResponse || '';
+
+    } else if (currentQ.type === 'text') {
       
-      const { error: updateError } = await supabase
-        .from('participants')
-        .update({
-          q10_response: response,
-          total_time_spent: user.total_time_spent + duration,
-          completed: true,
-          current_question_index: user.current_question_index + 1
-        })
-        .eq('id', participantId);
-        
-      if (updateError) throw updateError;
+      // Ensure text is min 20 chars, otherwise we can reject or just accept if time ran out
+      // Assuming auto-submit happens on 0, it might be empty.
+      const responseText = (textResponse || '').toString().trim();
       
+      await pool.query(
+        `UPDATE participants 
+         SET q10_response = $1,
+             total_time_spent = total_time_spent + $2,
+             current_question_index = current_question_index + 1,
+             completed = true
+         WHERE id = $3`,
+        [responseText, durationSec, participantId]
+      );
+
       return NextResponse.json({
         success: true,
         completed: true
       });
     }
 
-  } catch (error) {
-    console.error('Submit answer error:', error);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Submit Answer Error:', error);
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
   }
 }
