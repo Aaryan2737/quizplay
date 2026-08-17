@@ -187,13 +187,13 @@ export default function QuizPage({ onComplete }: { onComplete: () => void }) {
       <div className="w-full max-w-[720px] relative mt-16 md:mt-0 md:mr-16">
         
         {/* Mascot Side-Rail (Absolute) */}
-        <div className="absolute -top-24 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:-left-32 md:top-1/2 md:-translate-y-1/2 flex flex-col items-center md:items-end z-20 transition-all duration-300">
-          <div className="glass-panel px-4 py-3 rounded-none mb-2 max-w-[200px] text-center md:text-right font-display font-semibold text-lg text-[var(--color-text-primary)] leading-tight relative">
+        <div className="absolute -top-36 left-1/2 -translate-x-1/2 md:top-1/2 md:-translate-y-1/2 md:left-auto md:right-full md:translate-x-0 md:mr-8 flex flex-col items-center md:items-end z-20 transition-all duration-300 w-max">
+          <div className="glass-panel px-4 py-3 rounded-none mb-2 max-w-[220px] text-center md:text-right font-display font-semibold text-lg text-[var(--color-text-primary)] leading-tight relative">
             {quip}
             {/* Tail */}
-            <div className="absolute -bottom-2 right-4 w-4 h-4 glass-panel border-l-0 border-t-0 rotate-45 transform"></div>
+            <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 md:left-auto md:translate-x-0 md:right-8 w-4 h-4 glass-panel border-l-0 border-t-0 rotate-45 transform"></div>
           </div>
-          <div className="w-24 h-24 md:w-32 md:h-32 glass-panel-accent rounded-full border-2 border-[var(--color-accent-primary)] overflow-hidden animate-bob">
+          <div className="w-24 h-24 md:w-32 md:h-32 glass-panel-accent rounded-full border-2 border-[var(--color-accent-primary)] overflow-hidden animate-bob shadow-[0_0_20px_rgba(226,54,54,0.4)]">
             <img src="/spiderman.png" alt="Spider-Man" className="w-full h-full object-contain p-2" />
           </div>
         </div>
