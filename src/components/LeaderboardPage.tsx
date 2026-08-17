@@ -255,7 +255,7 @@ export default function LeaderboardPage() {
                     </div>
                     {p.q10_response && (
                       <div className="mt-3 text-sm text-gray-700 bg-white/50 p-3 rounded-lg border border-gray-100 italic">
-                        "{p.q10_response}"
+                        &quot;{p.q10_response}&quot;
                       </div>
                     )}
                   </div>
