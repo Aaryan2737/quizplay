@@ -215,14 +215,14 @@ export default function LeaderboardPage() {
                 const isSilver = index === 1;
                 const isBronze = index === 2;
                 
-                const rowStyle = isGold ? "glass-panel-accent border border-[var(--color-accent-highlight)]/30 text-[var(--color-text-primary)]" 
+                const rowStyle = isGold ? "glass-panel-hover border border-[var(--color-accent-highlight)]/50 text-[var(--color-text-primary)] shadow-[0_0_15px_rgba(242,183,5,0.2)]" 
                                : isSilver ? "glass-panel-hover border border-gray-400/30 text-[var(--color-text-primary)]" 
                                : isBronze ? "glass-panel-hover border border-orange-500/30 text-[var(--color-text-primary)]" 
                                : "glass-panel-recessed text-[var(--color-text-secondary)]";
                                
-                const badgeStyle = isGold ? "glass-panel text-[var(--color-accent-highlight)]" 
-                                 : isSilver ? "glass-panel text-gray-300" 
-                                 : isBronze ? "glass-panel text-orange-500" 
+                const badgeStyle = isGold ? "glass-panel border-[var(--color-accent-highlight)]/30 text-[var(--color-accent-highlight)]" 
+                                 : isSilver ? "glass-panel border-gray-300/30 text-gray-300" 
+                                 : isBronze ? "glass-panel border-orange-500/30 text-orange-500" 
                                  : "glass-panel-recessed text-[var(--color-text-primary)]";
                                  
                 return (
@@ -252,9 +252,12 @@ export default function LeaderboardPage() {
                         </div>
                       </div>
                       
-                      <div className="flex items-center space-x-1 font-display font-bold text-xl glass-panel-accent text-[var(--color-accent-primary)] px-3 py-1 rounded-none">
+                      <div className={twMerge(
+                        "flex items-center space-x-1 font-display font-bold text-xl px-3 py-1 rounded-none",
+                        isGold ? "glass-panel text-[var(--color-accent-highlight)] border-[var(--color-accent-highlight)]/30" : "glass-panel text-[var(--color-text-primary)]"
+                      )}>
                         <span>{p.score}</span>
-                        <Star size={18} className="fill-current text-[var(--color-accent-primary)] mb-0.5" />
+                        <Star size={18} className="fill-current mb-0.5" />
                       </div>
                     </div>
                     {p.q10_response && (
