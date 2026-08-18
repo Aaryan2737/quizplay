@@ -53,7 +53,7 @@ export default function LandingPage({ onJoin }: LandingPageProps) {
             <Zap size={40} className="fill-current" />
           </div>
           
-          <h1 className="text-5xl md:text-6xl font-display font-semibold mb-1 text-[var(--color-text-primary)] tracking-tight drop-shadow-md">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-semibold mb-1 text-[var(--color-text-primary)] tracking-tight drop-shadow-md">
             Fastest Finger First
           </h1>
           <p className="text-[var(--color-text-secondary)] mb-6 font-medium font-inter">

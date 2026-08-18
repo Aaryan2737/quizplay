@@ -157,12 +157,12 @@ export default function LeaderboardPage() {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] max-w-[800px] bg-[radial-gradient(ellipse_at_center,rgba(226,54,54,0.15)_0%,rgba(31,111,214,0.15)_50%,transparent_70%)] z-0 pointer-events-none mix-blend-screen opacity-70"></div>
       
       <div className="w-full max-w-2xl glass-panel rounded-none flex flex-col max-h-[85vh] relative z-10">
-        <div className="p-4 sm:p-6 glass-panel-recessed border-b border-[var(--color-glass-border)] text-[var(--color-text-primary)] flex justify-between items-center flex-shrink-0 rounded-none">
-          <div className="flex items-center space-x-3">
+        <div className="p-4 sm:p-6 glass-panel-recessed border-b border-[var(--color-glass-border)] text-[var(--color-text-primary)] flex flex-col sm:flex-row justify-between items-center flex-shrink-0 rounded-none gap-4">
+          <div className="flex items-center space-x-3 w-full sm:w-auto justify-center sm:justify-start">
             <Trophy size={28} className="text-[var(--color-accent-highlight)]" />
             <h1 className="text-3xl font-display font-bold tracking-tight text-[var(--color-text-primary)] uppercase">Leaderboard</h1>
           </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex flex-wrap items-center justify-center gap-2">
             <button 
               onClick={() => toggleSetting('is_quiz_active')}
               className={clsx("p-2 rounded-full transition-colors flex items-center gap-1 px-4 font-bold text-sm", settings.is_quiz_active ? "bg-[var(--color-feedback-success)] hover:bg-green-600" : "bg-gray-600 hover:bg-gray-700")}
